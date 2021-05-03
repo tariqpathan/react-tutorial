@@ -1,0 +1,336 @@
+React is a JavaScript library - it is not a framework
+React is used to build user interfaces
+
+React does not handle routing or requests
+Declarative - 'tell react what you want', React builds it -> Abstracting away DOM updates
+Imperative - Give a series of steps that are followed in order
+
+rest and spread operators
+destructuring
+this keyword
+
+npx npm package runner
+alternative install react globally
+
+files and control flows
+=======================
+package.json: dependencies and scripts for the project
+node_modules: folder in which dependencies are installed. generated create-react-app
+public: >manifest.json PWA, >index.html: only html file in your application
+        >index.html has a div id="root" which react takes control of at runtime
+src: >index.js: root component is the <App /> component
+     >App.js: <App /> component represented by this
+     >serviceWorker.js: PWA
+
+========================
+Component: 'Describe' a part of the interface - like a building block
+            Components can be customised, reused and contain or form other Components
+
+Component code placed in a js file or a jsx file. 
+
+Types of component: stateless functional component - JS functions, returns jsx
+                    stateful class component - must contain a render method that returns jsx
+
+----
+Functional components can receive an object of properties (props).
+Returns JSX.
+
+----
+export default allows to import as any name
+a 'named' export has to be imported with the same name
+and it also has to be imported as { name }
+
+====
+Class components
+
+Components can receive props and maintain an internal state.
+Information can be kept private and kept with that component.
+
+----
+Differences
+Functional components - simple functions receive props and return a declaration
+Use functional components as much as possible
+Advantages is the absence of this keyword, avoid usage of state - keeping track of state is hard 
+
+Class - feature rich, maintain private data (state)
+Provide lifecycle hooks
+
+****
+Hooks lets you use state and other features without using a class
+
+####
+
+JSX (X stands for XML)
+XML like code
+
+Makes React code simpler and elegant
+[Q] JSX transpiles to JS - what does transpile mean?
+You have to import the React library from 'react' because the JSX tags are syntactic sugar
+JSX tags are shorthand for React.createElement('elementTags')
+
+Some differences:
+Class => className
+for => htmlFor
+onclick => onClick (camelCased)
+
+====
+
+Props
+
+Props are immutable.
+
+Props are accessed via:
+<Component name="value"/> in the Component: fn component = (props), accessed via {props.name}
+Unknown props key can be accessed by {props.children}
+
+With a class component: {this.props.name}
+
+====
+
+State
+
+Object that is privately maintained within a component
+
+Props get *passed* to the component - think of it as function parameters (it is!)
+State is managed *within* the component - think of it as variables declared within a function
+State is mutable, props are not
+useState / this.state for fn / class components
+
+When we use component state, we create a state object using the class constructor and call super()
+We call super() because we extend the react component class and we need to call the base class constructor
+
+[Q] Why do we pass props in as an argument when calling the constructor method and super ?
+
+----
+
+setState
+calls to setState are asynchronous
+other parts of the code can be called before this.setState
+setState can accept a second parameter, a callback
+React can group setState calls for improved performance
+
+prevState - use prevState as an argument to setState when it relies on the previous state
+
+----
+
+Destructuring - allows unpacking of values from arrays / properties from objects into distinct variables
+- Improves code readability
+
+2 ways of destructuring: 
+    >Props as a parameter in the function argument, then using const {var1, var2} = props
+    >Using the destructured {var1, var2} as parameters instead 
+
+In class components, destructuring is done in the render method, using this.props instead of just props 
+State can also be destructured in this way 
+
+----
+
+Event binding
+
+[Q] Understand how 'this' keyword works in JS
+
+1. In a class-based method when you are binding an event handler that can setState, an anonymous function that
+calls your function. 
+
+2. You could also bind the this keyword when the click handler function is called.
+This isn't the preferred method, as every update to the state causes the component to re-render.
+
+3. Bind the event handler in the constructor using this.eventFunction = this.eventFunction.bind(this)
+
+4. Class property as an arrow function eventFunction = () => { fn body }
+
+Approach 3 is preferred, you only have to bind once in the constructor.
+Approach 4 is also ok - check documentation [Q]
+
+----
+
+Methods as props
+
+Methods can also be passed as props
+
+====
+
+Conditional Rendering
+
+if/else statements do not work inside JSX 
+i.e. it cannot be within the return statements
+
+----
+
+List Rendering
+
+.map(item => fn)
+
+It is good practice to have a component that is responsible for rendering the List
+And a second component that renders each index in the list.
+The list component passes down props to the 'index' component
+
+key prop helps React maintain efficiency
+key prop cannot be accessed by child components
+pass in another prop with the key value if it is required
+index can be used as a key - although this should be avoided
+because if the array is rearranged, react will update the wrong indexes
+
+only use index as a key if the list is static, items do not have a unique id
+
+
+.map((item, index) => item={item}, key={index})
+
+####
+Styling
+
+> use classes/stylesheet
+> inline-styling uses camelCased CSS properties  - create an object with styles key/values
+
+----
+CSS modules
+appStyles.modules.css // import styles from ./appStyles.modules.css
+Advantage - classes are locally scoped
+
+####
+Form Handling
+
+In regular HTML form elements are responsible for form handling
+In React, we want React to control the form - these are controlled components
+
+To convert a form to a controlled component we need to create a state.
+This state controls the value of the input to the form.
+The state is the single source of truth.
+
+####
+
+Lifecycle Methods
+
+For a class component: 
+
+Mounting - instance of a component is created, inserted into DOM
+Updating - component is being re-rendered (changes in props/state)
+Unmounting - component is removed from DOM
+Error Handling - error in rendering, in a lifecycle method or in constructor of child
+
+Mounting: 4 Methods
+Updating: 5 Methods
+Unmounting: 1 Methods
+Error Handling: 2 Methods
+
+====
+Mounting Lifecycle Methods
+
+invocation order:
+
+1. constructor - special function that is called when a new component is created
+               - used for initialising state, binding event handlers
+               - do not use for side effects
+               - super must be called
+               - constructor is only place where state is overwritten
+
+2. static getDerivedStateFromProps( props, state)
+        - used when state of component depends on changes in props over time
+        - static so doesn't have access to this keyword
+        - do not use for side effects
+
+3. render - only required method in a class component
+          - read props/state and return JSX
+          - pure function -> should always render the same Using
+          - do not change state/interact with DOM or make requests
+          - children components lifecycle methods are executed after the render method
+
+4. componentDidMount() - only called once in lifecycle
+                       - invoked after a component + children have been rendered into DOM
+                       - Ideal place for side effects, such as requests
+
+componentDidMount is called last, after children have called componentDidMount
+
+----
+
+Updating Lifecycle Methods
+Invocation Order:
+
+1. static getDerivedStateFromProps - called everytime a re-render occurs
+        - used when state is state
+        - rarely used
+
+2. shouldComponentUpdate( nextProps, nextState)
+         - checks if a component should re-render or not
+         - used for performance optimisation
+         - do not cause side effects or call setState
+         - rarely used
+
+3. render - see above
+
+4. getSnapshotBeforeUpdate( prevProps, prevState)
+        - called before changes in virtual DOM are to be reflected in the DOM
+        - used to capture information from DOM
+        - returns null or value, passed to next parameter
+        - rarely used
+
+5. componentDidUpdate( preProps, prevState, snapshot)
+        - called after render is finished in re-render cycle
+        - called only once in a re-render
+        - can be used for side effects => only with comparison to prev/current props
+
+3. and 5. used more often
+
+----
+
+Unmounting Lifecycle Methods
+
+componentWillUnmount() - Method is called before unmounting 
+            - This is when you should cancel network requests, 
+            - subscriptions, timers, removing event handlers
+            - Do not call setState method
+
+----
+
+Error Handling Lifecycle Methods
+
+static getDerivedStateFromError(error)
+componentDidCatch(error, info)
+
+====
+####
+
+Fragments
+
+Fragments let you group a list of children components without using div tags
+<React.Fragment></React.Fragment> can be used or <> </> which is much shorter
+Fragments can also be keyed with an id - this means that map can be used
+*Keys cannot be passed in the shorthand syntax version of a fragment
+
+====
+Pure Components
+Import and extend the PureComponent base class.
+
+Differences: >Pure components implement shouldComponentUpdate
+             >Pure components use a *shallow* props and state comparison
+             >Regular components do not implement shouldComponentUpdate method
+             >For regular components, shouldComponentUpdate returns true by default
+             >Shallow comparisons = for arrays/objects true is only returned if pointing to same address
+             >prevState/Props with currentState/Props -> shallow compared -> Pure component updates
+
+Use cases: Pure components are used because they can prevent unnecessary renders, by implementing shouldComponentUpdate
+           When using arrays/objects, do not mutate if using Pure Component. Use a new object/array
+           This is because on a mutation, the reference won't change so the Shallow Comparison returns true (unchanged)
+           So a change in props/state will not cause a re-render when it should have
+
+====
+Memo
+React.memo is functional component equivalent of a Pure Component
+Functional components are exported as React.memo(NameOfComponent)
+React.memo is a higher order component - see below
+
+====
+Refs
+Make it possible to access DOM nodes in React
+
+Use cases: Managing focus, text selection, media, triggering imperative animations
+
+This can be done using myRef = React.createRef() and then adding it as a property to the element you want to access.
+<el ref={this.myRef} />
+Refs are usually created in the constructor method of a class element
+
+Alternate way to add a ref is using the callback method.
+In the constructor method, create a ref with value assigned to null. 
+Next create a method to attach the ref to the element.
+In the element set the method as an attribute.
+Finally, when accessing the ref, use an if condition to make sure the ref is not null (as it will be null if unmounted)
