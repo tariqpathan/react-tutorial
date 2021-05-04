@@ -334,3 +334,16 @@ In the constructor method, create a ref with value assigned to null.
 Next create a method to attach the ref to the element.
 In the element set the method as an attribute.
 Finally, when accessing the ref, use an if condition to make sure the ref is not null (as it will be null if unmounted)
+
+Refs can only be added to class components, can't be used for functional components (by default).
+
+----
+Ref Forwarding
+
+Parent component can directly reference child component elements
+A ref is created in the parent component and then forwarded to the child
+
+The functional component is passed in as an anonymous function argument to the React.forwardRef method. 
+The anonymous function takes in the parameters of props and ref.
+The ref={ref} is then attached to the desired element.
+

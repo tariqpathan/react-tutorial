@@ -10,13 +10,13 @@ import './App.css';
 // import Inline from './components/StyleSheets'
 // import MountingComponent from './components/Mounting'
 // import ParentComponent from './components/ParentOfPure'
-import RefsDemo from './components/RefsDemo'
+import FRParentInput from './components/FRParentInput'
 
 
 function App() {
   return (
     <div className="App">
-      <RefsDemo />
+      <FRParentInput />
     </div>
   );
 }
