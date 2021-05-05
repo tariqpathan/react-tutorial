@@ -347,3 +347,37 @@ The functional component is passed in as an anonymous function argument to the R
 The anonymous function takes in the parameters of props and ref.
 The ref={ref} is then attached to the desired element.
 
+####
+Portals
+
+Provide a first-class way to render children into a DOM node outside the DOM hierarchy of the parent
+[Q]: What does first-class mean?
+
+Most of the time, we mount all the React components within the <div id="root" /> - everything falls within this
+React portals provide a way to not be inside the root element
+
+Use ReactDOM.create(react-jsx-element, element-in-index.html-to-mount-component)
+Passing in the component as the first argument and the index.html element as the second argument.
+Component can be any element that React can render (doesn't have to be jsx)
+
+Usage: when a child needs to break out of the container, e.g. dialogs, hovercards or tooltips
+
+Portals behave like a normal React child so events bubble up the React tree, even if it isn't a child in the DOM tree
+
+####
+Error Handling
+
+Error boundary
+- A class component that implements one/both of error lifecycle methods
+- These methods are: getDerivedStateFromError or componentDidCatch
+- static getDerivedStateFromError is used to render a fallback UI after an error
+[Q]: What does static mean? - Why do we use it?
+- componentDidCatch is used to log error info
+
+- Error boundaries catch errors during rendering, mounting, lifecycle methods in the constructors of all descendants
+- Errors inside event handlers are not caught by error boundaries
+
+####
+Higher order components
+
+

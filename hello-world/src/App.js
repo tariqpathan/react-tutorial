@@ -10,13 +10,15 @@ import './App.css';
 // import Inline from './components/StyleSheets'
 // import MountingComponent from './components/Mounting'
 // import ParentComponent from './components/ParentOfPure'
-import FRParentInput from './components/FRParentInput'
-
+// import FRParentInput from './components/FRParentInput'
+import HoverCounter from './components/HoverCounter'
+import ClickCounter from './components/ClickCounter'
 
 function App() {
   return (
     <div className="App">
-      <FRParentInput />
+      <HoverCounter />
+      <ClickCounter />
     </div>
   );
 }
